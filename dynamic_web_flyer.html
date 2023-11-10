@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flyer</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f7f7;
+  }
+  .container {
+    width: 8.5in;
+    height: 11in;
+    margin: 0 auto;
+    padding: 0; /* Padding is removed to be handled by inner elements */
+    background: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid #ddd;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border-color: black;
+  }
+  .header, .footer {
+      font-family: Arial, sans-serif;
+
+    text-align: center;
+    position: relative; /* Set the header to relative position */
+    padding-top: 15px; /* Reduced padding to bring header content down */
+  }
+  .body {
+    flex-grow: 1; /* Body takes the remaining space */
+    display: flex; /* Flex layout for the columns */
+    justify-content: space-between; /* Equal spacing between the columns */
+    padding: 0 0.2in; /* Padding on the sides */
+    height: calc(100% - 4in); /* Height calculation adjusted for padding */
+    border-color: black;
+
+  }
+  .column {
+    flex-basis: 0;
+    flex-grow: 1; /* Each column grows equally */
+    margin: 0 0.5%; /* Margins between columns */
+    padding: 0.1%; /* Padding inside columns */
+    border-color: black;
+
+  }
+  .language-indicator {
+    position: absolute;
+    align-items: center;
+    top: 2.5px;
+    right: 2.5px;
+    background: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.75em;
+    cursor: pointer;
+    z-index: 10;
+  }
+  @media print {
+    .container {
+      box-shadow: none;
+      margin-top: 0;
+      border: none;
+    }
+    .language-indicator {
+      display: none;
+    }
+  }
+  @media (max-width: 600px) {
+    .container {
+      width: auto; /* Make the container responsive */
+      height: auto;
+      border: none; /* Borders removed for small devices */
+      box-shadow: none;
+    }
+    .header, .footer {
+      padding: 0.5in; /* Adjust padding for small screens */
+    }
+    .body {
+      flex-direction: column; /* Stack columns vertically on small screens */
+    }
+    .column {
+      margin: 0; /* Remove margin for small screens */
+      padding: 0.5in; /* Adjust padding for small screens */
+    }
+  }
+  .content {
+    display: none;
+  }
+  .content.active {
+    display: block;
+  }
+
+/* General Heading Styles */
+h1, h2, h3 {
+  color: #333; /* Dark grey color for text */
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  text-align: center;
+}
+
+/* Specific Heading Styles */
+h1 {
+  font-size: 2em; /* Large font size for main title */
+  font-weight: bold; /* Bold font weight for importance */
+}
+
+h2 {
+  font-size: 1.2em; /* Medium font size for subtitles */
+  color: #007bff; /* Using a blue color for contrast */
+}
+
+h3 {
+  font-size: 1.2em; /* Slightly larger than normal text */
+  font-style: italic; /* Italic style for a different look */
+}
+
+/* Paragraph Styles */
+p {
+  font-size: 1em; /* Standard font size for readability */
+  line-height: 1.4; /* Spacing out lines for better readability */
+  color: #666; /* Lighter grey for less emphasis */
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+/* Footer Paragraph Styles */
+.footer p {
+  font-size: 0.9em; /* Smaller font size for less important text */
+  color: #555; /* Slightly darker than normal paragraph for distinction */
+}
+</style>
+<script>
+  let currentLanguage = 'es'; // Default language
+
+  function switchLanguage() {
+    // Toggle language
+    currentLanguage = currentLanguage === 'en' ? 'es' : 'en';
+
+    // Update indicator text
+    const langIndicator = document.getElementById('lang-indicator');
+    langIndicator.textContent = currentLanguage === 'en' ? 'ESPANOL' : 'ENGLISH';
+
+    // Show and hide content based on language
+    const allContent = document.querySelectorAll('.content');
+    allContent.forEach((content) => {
+      content.classList.remove('active');
+    });
+
+    const activeContent = document.querySelectorAll('.content.' + currentLanguage);
+    activeContent.forEach((content) => {
+      content.classList.add('active');
+    });
+  }
+
+  // Initialize the content display
+  window.onload = () => {
+    switchLanguage();
+  };
+</script>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>
+      <div class="content en">English Header</div>
+      <div class="content es">Spanish Header</div>
+    </h1>
+    <button id="lang-indicator" class="language-indicator" onclick="switchLanguage()">ENG</button>
+  </div>
+  <div class="body">
+    <!-- English Content -->
+    <div class="column content en">
+      <h2>Column 1 Title</h2>
+      <p>This is the first column's <br> content in English.</p>
+    </div>
+    <div class="column content en">
+      <h2>Column 2 Title</h2>
+      <p>This is the second column's content in English.</p>
+    </div>
+    <div class="column content en">
+      <h2>Column 3 Title</h2>
+      <p>This is the third column's content in English.</p>
+    </div>
+    <!-- Spanish Content -->
+    <div class="column content es">
+      <h2>Título Columna 1</h2>
+      <p>Este es el contenido de la primera columna en español.</p>
+    </div>
+    <div class="column content es">
+      <h2>Título Columna 2</h2>
+      <p>Este es el contenido de la segunda columna en español.</p>
+    </div>
+    <div class="column content es">
+      <h2>Título Columna 3</h2>
+      <p>Este es el contenido de la tercera columna en español.</p>
+    </div>
+  </div>
+  <div class="footer">
+    <h3>
+      <div class="content en">English Footer</div>
+      <div class="content es">Spanish Footer</div>
+    </h3>
+    <p>
+      <div class="content en">English Footer Sentence 1</div>
+      <div class="content en">English Footer Sentence 2</div>
+      <div class="content en">English Footer Sentence 3</div>
+
+      <div class="content es">Spanish Footer Sentence 1</div>
+      <div class="content es">Spanish Footer Sentence 2</div>
+      <div class="content es">Spanish Footer Sentence 3</div>
+
+    </p>
+  </div>
+</div>
+
+</body>
+</html>
